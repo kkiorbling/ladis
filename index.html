@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+SC:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+SC:wght@200;300&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
@@ -16,7 +16,7 @@
             font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
             background-color: #F4F2EE; /* 纸白 */
             color: #222222;            /* 深墨灰 */
-            overflow-x: hidden;
+            overflow: hidden;          /* 彻底锁死屏幕，禁止任何多余滚动 */
         }
 
         /* 材质层 1：Museum Paper 纸张微颗粒 */
@@ -47,53 +47,53 @@
         }
 
         .animate-fade-in {
-            animation: fadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: fadeIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(2px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="relative min-h-screen select-none flex flex-col justify-between px-6 py-16 md:px-16 md:py-24 z-10">
+<body class="relative w-screen h-screen select-none z-10 flex flex-col justify-between items-center py-16 md:py-24">
 
     <div class="paper-texture"></div>
     <div class="fog-layer"></div>
 
-    <div class="flex flex-col items-center justify-start pt-12 md:pt-20 text-center z-20 animate-fade-in" style="animation-delay: 0.3s;">
-        <h1 class="text-4xl md:text-5xl font-thin tracking-[0.4em] text-[#222222] font-serif uppercase pl-[0.4em]">
+    <div class="w-full text-center z-20 animate-fade-in" style="animation-delay: 0.2s;">
+        <h1 class="text-3xl md:text-4xl tracking-[0.5em] font-light text-[#222222] font-serif uppercase pl-[0.5em]">
             LADIS
         </h1>
     </div>
 
     <div class="flex-grow"></div>
 
-    <div class="w-full max-w-2xl mx-auto z-20 animate-fade-in mt-auto" style="animation-delay: 0.7s;">
-        <nav class="flex flex-row justify-between items-center text-center">
+    <div class="w-full max-w-xl px-6 z-20 animate-fade-in" style="animation-delay: 0.6s;">
+        <nav class="flex flex-row justify-between items-center w-full">
             
-            <a href="novel.html" class="group relative py-2 px-1">
-                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
-                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Novel</span>
+            <a href="novel.html" class="group relative py-2">
+                <span class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
+                <span class="text-[15px] md:text-base text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Novel</span>
             </a>
 
-            <a href="poetry.html" class="group relative py-2 px-1">
-                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
-                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Poetry</span>
+            <a href="poetry.html" class="group relative py-2">
+                <span class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
+                <span class="text-[15px] md:text-base text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Poetry</span>
             </a>
 
-            <a href="illustration.html" class="group relative py-2 px-1">
-                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
-                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Illustration</span>
+            <a href="illustration.html" class="group relative py-2">
+                <span class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
+                <span class="text-[15px] md:text-base text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Illustration</span>
             </a>
 
-            <a href="notes.html" class="group relative py-2 px-1">
-                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
-                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Notes</span>
+            <a href="notes.html" class="group relative py-2">
+                <span class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
+                <span class="text-[15px] md:text-base text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Notes</span>
             </a>
 
-            <a href="#about" class="group relative py-2 px-1">
-                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
-                <span class="text-base md:text-lg text-[#8A8F96] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#222222]">About</span>
+            <a href="#about" class="group relative py-2">
+                <span class="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></span>
+                <span class="text-[15px] md:text-base text-[#8A8F96] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#222222]">About</span>
             </a>
 
         </nav>
