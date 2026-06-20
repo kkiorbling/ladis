@@ -7,29 +7,29 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+SC:wght@200;300;400&display=swap" rel="stylesheet">
     
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <style>
         body {
             font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
-            background-color: #F4F2EE; /* 纸白主色 */
+            background-color: #F4F2EE; /* 纸白 */
             color: #222222;            /* 深墨灰 */
             overflow-x: hidden;
         }
 
-        /* 材质层 1：Museum Paper 纸张微颗粒纹理 */
+        /* 材质层 1：Museum Paper 纸张微颗粒 */
         .paper-texture {
             position: fixed;
             inset: 0;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.025; /* 极淡，若有若无 */
+            opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
-        /* 材质层 2：潜意识雾层（三层低透明度渐变，60秒极慢呼吸） */
+        /* 材质层 2：呼吸雾层 */
         .fog-layer {
             position: fixed;
             inset: -50%;
@@ -46,79 +46,59 @@
             100% { transform: translate(-1%, 2%) scale(0.98); }
         }
 
-        /* 极简淡入动画 */
         .animate-fade-in {
-            animation: fadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: fadeIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="relative min-h-screen select-none flex flex-col justify-between p-8 md:p-16 z-10">
+<body class="relative min-h-screen select-none flex flex-col justify-between px-6 py-16 md:px-16 md:py-24 z-10">
 
     <div class="paper-texture"></div>
     <div class="fog-layer"></div>
 
-    <div class="w-full flex justify-end z-20 animate-fade-in" style="animation-delay: 0.2s;">
-        <a href="#about" class="text-xs tracking-[0.2em] text-[#8A8F96] hover:text-[#222222] transition-colors duration-500 uppercase">
-            About
-        </a>
-    </div>
-
-    <div class="flex flex-col items-center justify-center my-auto space-y-4 text-center z-20 animate-fade-in" style="animation-delay: 0.4s;">
-        <h1 class="text-5xl md:text-6xl font-light tracking-wide text-[#222222] font-serif">
+    <div class="flex flex-col items-center justify-start pt-12 md:pt-20 text-center z-20 animate-fade-in" style="animation-delay: 0.3s;">
+        <h1 class="text-4xl md:text-5xl font-thin tracking-[0.4em] text-[#222222] font-serif uppercase pl-[0.4em]">
             LADIS
         </h1>
-        <p class="text-xs md:text-sm tracking-[0.25em] text-[#8A8F96] uppercase font-serif pl-[0.25em]">
-            Literary & Visual Archive
-        </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-x-16 gap-y-12 max-w-md mx-auto w-full z-20 animate-fade-in md:mt-8" style="animation-delay: 0.6s;">
+    <div class="flex-grow"></div>
+
+    <div class="w-full max-w-2xl mx-auto z-20 animate-fade-in mt-auto" style="animation-delay: 0.7s;">
+        <nav class="flex flex-row justify-between items-center text-center">
+            
+            <a href="novel.html" class="group relative py-2 px-1">
+                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Novel</span>
+            </a>
+
+            <a href="poetry.html" class="group relative py-2 px-1">
+                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Poetry</span>
+            </a>
+
+            <a href="illustration.html" class="group relative py-2 px-1">
+                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Illustration</span>
+            </a>
+
+            <a href="notes.html" class="group relative py-2 px-1">
+                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                <span class="text-base md:text-lg text-[#222222] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#8A8F96]">Notes</span>
+            </a>
+
+            <a href="#about" class="group relative py-2 px-1">
+                <span class="absolute top-0 left-0 w-full h-[1px] bg-[#8A8F96] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                <span class="text-base md:text-lg text-[#8A8F96] font-serif font-light tracking-wide transition-colors duration-300 group-hover:text-[#222222]">About</span>
+            </a>
+
+        </nav>
         
-        <a href="novel.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
-            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Novel</span>
-            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
-            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
-                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
-                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Fiction</span>
-            </div>
-        </a>
-
-        <a href="poetry.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
-            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Poetry</span>
-            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
-            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
-                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
-                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Verse</span>
-            </div>
-        </a>
-
-        <a href="illustration.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
-            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Illustration</span>
-            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
-            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
-                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
-                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Visual</span>
-            </div>
-        </a>
-
-        <a href="notes.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
-            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Notes</span>
-            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
-            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
-                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
-                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Fragments</span>
-            </div>
-        </a>
-
-    </div>
-
-    <div class="w-full flex flex-col items-center opacity-30 z-20 animate-fade-in mt-12" style="animation-delay: 0.8s;">
-        <span class="text-[9px] tracking-[0.3em] uppercase text-[#8A8F96] mb-2">Scroll to Explore</span>
-        <div class="w-[1px] h-8 bg-[#8A8F96]"></div>
+        <div class="w-full h-[1px] bg-[#8A8F96] opacity-20 mt-4"></div>
     </div>
 
 </body>
