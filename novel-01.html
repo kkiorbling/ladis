@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADIS | 正文阅读</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@300;400&family=Noto+Serif+SC:wght@200;300&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #F4F2EE; /* 档案馆统一冷白底色 */
+            color: #222222;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10vh 2rem 15vh 2rem; /* 底部多留白，给阅读留下余韵 */
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 纸张微颗粒 */
+        .paper-texture {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 顶部轻量级退出导航 */
+        .article-nav {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 8vh;
+            z-index: 10;
+        }
+
+        .article-nav .back-to-list {
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: #8A8F96;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+        .article-nav .back-to-list:hover {
+            color: #222222;
+        }
+
+        /* 文章主体容器 */
+        .article-container {
+            width: 100%;
+            max-width: 600px; /* 黄金阅读宽度限制 */
+            z-index: 10;
+        }
+
+        /* 文章头部元数据 */
+        .article-header {
+            margin-bottom: 8vh;
+        }
+
+        .article-meta {
+            font-size: 0.85rem;
+            color: #8A8F96;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.6rem;
+        }
+
+        .article-title {
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+        }
+
+        /* 核心正文排版（高阶舒适度控制） */
+        .article-content {
+            font-size: 1.05rem; /* 字号略微放大，保障手机和电脑看都不费眼 */
+            font-weight: 300;
+            line-height: 1.95; /* 克制的行间距，极具呼吸感 */
+            letter-spacing: 0.04em; /* 克制的字间距，既放松又保证阅读连贯 */
+            color: #2D3133; /* 微微调淡的墨黑，降低深夜看屏幕的刺眼度 */
+            text-align: justify; /* 两端对齐，排版更像实体印刷书 */
+        }
+
+        /* 段落间距 */
+        .article-content p {
+            margin-bottom: 2rem; /* 每段之间留出清晰的空白 */
+            text-indent: 2em; /* 中文标准：首行缩进两格 */
+        }
+        
+        /* 破例：如果是诗歌或者不需要缩进的随笔，可以去掉上面的 text-indent */
+
+        /* 底部完结标识 */
+        .article-footer {
+            margin-top: 12vh;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #8A8F96;
+            letter-spacing: 0.2em;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 6vh 1.2rem 10vh 1.2rem; }
+            .article-header { margin-bottom: 5vh; }
+            .article-title { font-size: 1.4rem; }
+            .article-content { font-size: 1rem; line-height: 1.85; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="paper-texture"></div>
+
+    <nav class="article-nav">
+        <a href=" " class="back-to-list">← Back to Archive</a >
+    </nav>
+
+    <article class="article-container">
+        
+        <header class="article-header">
+            <span class="article-meta">Vol. 01 / 2026.06</span>
+            <h1 class="article-title">未命名的小说卷宗名称</h1>
+        </header>
+
+        <main class="article-content">
+            <p>这里是档案馆的第一段文字。你可以注意到，文字和文字之间拉开了非常轻微的距离，这保证了中文在渲染时的清晰度，不会糊成一片。同时两端的对齐让网页看起来像是一张被抚平的、安静的宣纸。</p >
+            <p>这是第二段文字。行与行之间的空隙被特意放大到了将近两倍，这样读者在读完上一行的末尾、视线准备跳跃回下一行开头的时候，不容易发生“看错行”或者“串行”的视觉失误。特别适合盛放长篇的小说、沉静的意识流散文或者随笔碎屑。</p >
+            <p>深夜，迷雾打湿窗棂，当所有的数据在服务器里变成永恒的切片，文字便开始在这个孤立的维度里自由流淌。LADIS 档案馆，欢迎你的阅读。</p >
+        </main>
+
+        <footer class="article-footer">
+            <span>■</span>
+        </footer>
+
+    </article>
+
+</body>
+</html>
