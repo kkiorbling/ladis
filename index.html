@@ -1,78 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>LADIS</title>
-<style>
-body{
-font-family:serif;
-background:#111;
-color:white;
-margin:0;
-text-align:center;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADIS | Literary & Visual Archive</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-header{
-padding:60px;
-font-size:40px;
-letter-spacing:8px;
-}
+    <style>
+        body {
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            background-color: #F4F2EE; /* 纸白主色 */
+            color: #222222;            /* 深墨灰 */
+            overflow-x: hidden;
+        }
 
-section{
-max-width:800px;
-margin:auto;
-padding:30px;
-text-align:left;
-}
+        /* 材质层 1：Museum Paper 纸张微颗粒纹理 */
+        .paper-texture {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.025; /* 极淡，若有若无 */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
 
-h2{
-border-bottom:1px solid #444;
-padding-bottom:10px;
-}
+        /* 材质层 2：潜意识雾层（三层低透明度渐变，60秒极慢呼吸） */
+        .fog-layer {
+            position: fixed;
+            inset: -50%;
+            z-index: 2;
+            pointer-events: none;
+            background: radial-gradient(circle at 30% 40%, rgba(232, 230, 226, 0.5) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 70%, rgba(138, 143, 150, 0.15) 0%, transparent 50%);
+            animation: subtleFog 60s ease-in-out infinite alternate;
+        }
 
-.card{
-margin:20px 0;
-padding:20px;
-border:1px solid #333;
-}
-</style>
+        @keyframes subtleFog {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(2%, -3%) scale(1.03); }
+            100% { transform: translate(-1%, 2%) scale(0.98); }
+        }
+
+        /* 极简淡入动画 */
+        .animate-fade-in {
+            animation: fadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
+<body class="relative min-h-screen select-none flex flex-col justify-between p-8 md:p-16 z-10">
 
-<body>
+    <div class="paper-texture"></div>
+    <div class="fog-layer"></div>
 
-<header>
-LADIS
-</header>
+    <div class="w-full flex justify-end z-20 animate-fade-in" style="animation-delay: 0.2s;">
+        <a href="#about" class="text-xs tracking-[0.2em] text-[#8A8F96] hover:text-[#222222] transition-colors duration-500 uppercase">
+            About
+        </a>
+    </div>
 
-<section>
+    <div class="flex flex-col items-center justify-center my-auto space-y-4 text-center z-20 animate-fade-in" style="animation-delay: 0.4s;">
+        <h1 class="text-5xl md:text-6xl font-light tracking-wide text-[#222222] font-serif">
+            LADIS
+        </h1>
+        <p class="text-xs md:text-sm tracking-[0.25em] text-[#8A8F96] uppercase font-serif pl-[0.25em]">
+            Literary & Visual Archive
+        </p>
+    </div>
 
-<h2>小说</h2>
+    <div class="grid grid-cols-2 gap-x-16 gap-y-12 max-w-md mx-auto w-full z-20 animate-fade-in md:mt-8" style="animation-delay: 0.6s;">
+        
+        <a href="novel.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
+            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Novel</span>
+            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
+            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
+                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
+                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Fiction</span>
+            </div>
+        </a>
 
-<div class="card">
-<h3>罪犯的孩子</h3>
-<p>冬天，爱莲登那。雪落得很大……</p>
-</div>
+        <a href="poetry.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
+            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Poetry</span>
+            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
+            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
+                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
+                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Verse</span>
+            </div>
+        </a>
 
-<h2>诗歌</h2>
+        <a href="illustration.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
+            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Illustration</span>
+            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
+            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
+                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
+                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Visual</span>
+            </div>
+        </a>
 
-<div class="card">
-<h3>扬州慢</h3>
-<p>空空烛宵，徘徊凄切，淡月栖枝冷夜。</p>
-</div>
+        <a href="notes.html" class="group flex flex-col items-center md:items-start text-center md:text-left space-y-1">
+            <span class="text-lg md:text-xl text-[#222222] font-serif transition-transform duration-500 group-hover:-translate-y-0.5">Notes</span>
+            <span class="text-[10px] tracking-widest text-[#8A8F96] uppercase opacity-80 group-hover:opacity-0 transition-opacity duration-300 block">Archive</span>
+            <div class="hidden group-hover:flex flex-col items-center md:items-start w-full transition-all duration-300">
+                <div class="w-8 h-[1px] bg-[#8A8F96] my-1"></div>
+                <span class="text-[9px] tracking-widest text-[#8A8F96] uppercase">Fragments</span>
+            </div>
+        </a>
 
-<h2>插画</h2>
+    </div>
 
-<div class="card">
-<p>这里可以展示你的绘画作品。</p>
-</div>
-
-<h2>手记</h2>
-
-<div class="card">
-<p>记录你的创作与思考。</p>
-</div>
-
-</section>
+    <div class="w-full flex flex-col items-center opacity-30 z-20 animate-fade-in mt-12" style="animation-delay: 0.8s;">
+        <span class="text-[9px] tracking-[0.3em] uppercase text-[#8A8F96] mb-2">Scroll to Explore</span>
+        <div class="w-[1px] h-8 bg-[#8A8F96]"></div>
+    </div>
 
 </body>
 </html>
