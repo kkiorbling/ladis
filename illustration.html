@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADIS | Illustration Archive</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+SC:wght@200;300&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #F4F2EE; /* 复用底色 */
+            color: #222222;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8vh 2rem;
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+        }
+
+        /* 纸张微颗粒效果 */
+        .paper-texture {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 顶部轻导航 */
+        .archive-header {
+            width: 100%;
+            max-width: 800px; /* 视觉页可以稍微宽一点 */
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8vh;
+            z-index: 10;
+        }
+
+        .archive-header .back-btn {
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: #8A8F96;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+        .archive-header .back-btn:hover {
+            color: #222222;
+        }
+
+        .archive-header h2 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* 极简画廊两列网格布局 */
+        .gallery-grid {
+            width: 100%;
+            max-width: 800px;
+            display: block; /* 避开flex/grid以获得更稳固的手机端兼容 */
+            z-index: 10;
+        }
+
+        /* 单个插画卡片容器 */
+        .gallery-item {
+            display: block;
+            width: 47%; /* 左右留有一点间距 */
+            float: left;
+            margin-right: 6%;
+            margin-bottom: 2.5rem;
+            text-decoration: none;
+            color: #222222;
+        }
+        
+        /* 让每行第二个卡片没有右边距，实现完美对称 */
+        .gallery-item:nth-child(2n) {
+            margin-right: 0;
+        }
+
+        /* 用于清除浮动的伪元素（传统且极其稳固的布局方式） */
+        .gallery-grid::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* 图片展位框（后续你可以放自己的画） */
+        .image-box {
+            width: 100%;
+            aspect-ratio: 3 / 4; /* 强制设定统一的纵向黄金比例画幅 */
+            background: #EAE8E4; /* 没放图时的冷灰色占位块 */
+            border: 1px solid rgba(138, 143, 150, 0.15);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s ease;
+            overflow: hidden;
+        }
+
+        /* 占位符内部的淡淡标识文本 */
+        .image-placeholder-text {
+            display: block;
+            text-align: center;
+            margin-top: 45%;
+            font-size: 0.8rem;
+            color: #8A8F96;
+            letter-spacing: 0.05em;
+        }
+
+        /* 鼠标悬停时，画作轻微放大并变白，极具美术馆质感 */
+        .gallery-item:hover .image-box {
+            transform: translateY(-2px);
+            background: #EEEEEE;
+        }
+
+        /* 图片下方的注释文案 */
+        .item-details {
+            margin-top: 0.8rem;
+            padding: 0 0.2rem;
+        }
+
+        .art-code {
+            font-size: 0.8rem;
+            color: #8A8F96;
+            letter-spacing: 0.05em;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .art-title {
+            font-size: 0.95rem;
+            font-weight: 300;
+            letter-spacing: 0.03em;
+        }
+
+        /* 手机端自动变为一列，方便单手滑动浏览 */
+        @media (max-width: 640px) {
+            body { padding: 6vh 1.5rem; }
+            .gallery-item {
+                width: 100% !important;
+                margin-right: 0 !important;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="paper-texture"></div>
+
+    <header class="archive-header">
+        <a href=" " class="back-btn">← Return</a >
+        <h2>Illustration</h2>
+    </header>
+
+    <main class="gallery-grid">
+
+        <a href="art-01.html" class="gallery-item">
+            <div class="image-box">
+                <span class="image-placeholder-text">[ Image Void ]</span>
+            </div>
+            <div class="item-details">
+                <span class="art-code">No. 001</span>
+                <span class="art-title">未命名的视觉档案记录</span>
+            </div>
+        </a >
+
+        <a href="art-02.html" class="gallery-item">
+            <div class="image-box">
+                <span class="image-placeholder-text">[ Image Void ]</span>
+            </div>
+            <div class="item-details">
+                <span class="art-code">No. 002</span>
+                <span class="art-title">在冷白迷雾中消散的轮廓</span>
+            </div>
+        </a >
+
+    </main>
+
+</body>
+</html>
