@@ -1,190 +1,164 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADIS | Literary & Visual Archive</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
-    
-    <style>
-        /* 强制覆盖所有默认样式，死锁布局 */
-        * {
-            margin: 0 !important;
-            padding: 0 !important;
-            box-sizing: border-box !important;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADIS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+        }
 
-        html, body {
-            background-color: #F4F2EE !important; /* 纸白 */
-            color: #222222 !important;            /* 深墨灰 */
-            width: 100vw !important;
-            height: 100vh !important;
-            overflow: hidden !important;          /* 锁死视口 */
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-        }
+        body {
+            background: #F4F2EE !important;
+            color: #222222 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 10vh 2rem !important;
+            font-family: 'Cormorant Garamond', serif !important;
+        }
 
-        body {
-            padding: 8vh 2rem !important;        /* 上下强行留白，逼入红框位置 */
-        }
+        .paper-texture {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+            opacity: 0.025 !important;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
+        }
 
-        /* 材质层 1：Museum Paper */
-        .paper-texture {
-            position: fixed !important;
-            inset: 0 !important;
-            z-index: 1 !important;
-            pointer-events: none !important;
-            opacity: 0.025 !important;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
-        }
+        .fog-layer {
+            position: fixed !important;
+            inset: -50% !important;
+            z-index: 2 !important;
+            pointer-events: none !important;
+            background: radial-gradient(circle at 30% 40%, rgba(232, 230, 226, 0.5) 0%, transparent 60%), radial-gradient(circle at 80% 70%, rgba(138, 143, 150, 0.15) 0%, transparent 50%) !important;
+            animation: subtleFog 60s ease-in-out infinite alternate !important;
+        }
 
-        /* 材质层 2：呼吸雾 */
-        .fog-layer {
-            position: fixed !important;
-            inset: -50% !important;
-            z-index: 2 !important;
-            pointer-events: none !important;
-            background: radial-gradient(circle at 30% 40%, rgba(232, 230, 226, 0.5) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 70%, rgba(138, 143, 150, 0.15) 0%, transparent 50%) !important;
-            animation: subtleFog 60s ease-in-out infinite alternate !important;
-        }
+        @keyframes subtleFog {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(2%, -3%) scale(1.03); }
+            100% { transform: translate(-1%, 2%) scale(0.98); }
+        }
 
-        @keyframes subtleFog {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(2%, -3%) scale(1.03); }
-            100% { transform: translate(-1%, 2%) scale(0.98); }
-        }
+        .header-zone {
+            z-index: 10 !important;
+            text-align: center !important;
+            width: 100% !important;
+        }
 
-        /* 上方红框位置 */
-        .header-zone {
-            z-index: 10 !important;
-            text-align: center !important;
-            width: 100% !important;
-        }
+        .header-zone h1 {
+            font-size: 2.2rem !important;
+            font-weight: 300 !important;
+            letter-spacing: 0.6em !important;
+            padding-left: 0.6em !important;
+            text-transform: uppercase !important;
+        }
 
-        .header-zone h1 {
-            font-family: 'Cormorant Garamond', serif !important;
-            font-size: 2.2rem !important;
-            font-weight: 300 !important;
-            letter-spacing: 0.6em !important;
-            padding-left: 0.6em !important; /* 绝对物理居中 */
-            text-transform: uppercase !important;
-            color: #222222 !important;
-        }
+        .main-void {
+            flex-grow: 1 !important;
+        }
 
-        /* 中间留空 */
-        .main-void {
-            flex-grow: 1 !important;
-        }
+        .nav-zone {
+            z-index: 10 !important;
+            width: 100% !important;
+            max-width: 600px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+        }
 
-        /* 下方红框位置 */
-        .nav-zone {
-            z-index: 10 !important;
-            width: 100% !important;
-            max-width: 600px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-        }
+        .nav-links {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
 
-        .nav-links {
-            width: 100% !important;
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-        }
+        .nav-links a {
+            font-size: 1rem !important;
+            font-weight: 300 !important;
+            color: #222222 !important;
+            text-decoration: none !important;
+            letter-spacing: 0.05em !important;
+            padding: 0.5rem 0 !important;
+            position: relative !important;
+            transition: color 0.4s ease !important;
+        }
 
-        .nav-links a {
-            font-family: 'Cormorant Garamond', serif !important;
-            font-size: 1rem !important;
-            font-weight: 300 !important;
-            color: #222222 !important;
-            text-decoration: none !important;
-            letter-spacing: 0.05em !important;
-            padding: 0.5rem 0 !important;
-            position: relative !important;
-            transition: color 0.4s ease !important;
-        }
+        .nav-links a.about-link {
+            color: #8A8F96 !important;
+        }
 
-        .nav-links a.about-link {
-            color: #8A8F96 !important;
-        }
+        .nav-links a::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 50% !important;
+            transform: translateX(-50%) scale-x(0) !important;
+            width: 20px !important;
+            height: 1px !important;
+            background: #8A8F96 !important;
+            transition: transform 0.4s ease !important;
+        }
 
-        /* Hover 书签线 */
-        .nav-links a::after {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: 50% !important;
-            transform: translateX(-50%) scale-x(0) !important;
-            width: 20px !important;
-            height: 1px !important;
-            background-color: #8A8F96 !important;
-            transition: transform 0.4s ease !important;
-        }
+        .nav-links a:hover::after {
+            transform: translateX(-50%) scale-x(1) !important;
+        }
 
-        .nav-links a:hover::after {
-            transform: translateX(-50%) scale-x(1) !important;
-        }
+        .nav-links a:hover { color: #8A8F96 !important; }
+        .nav-links a.about-link:hover { color: #222222 !important; }
 
-        .nav-links a:hover { color: #8A8F96 !important; }
-        .nav-links a.about-link:hover { color: #222222 !important; }
+        .divider {
+            width: 100% !important;
+            height: 1px !important;
+            background: #8A8F96 !important;
+            opacity: 0.15 !important;
+            margin-top: 0.8rem !important;
+        }
 
-        .divider {
-            width: 100% !important;
-            height: 1px !important;
-            background-color: #8A8F96 !important;
-            opacity: 0.15 !important;
-            margin-top: 0.8rem !important;
-        }
-
-        /* 优雅淡入 */
-        .fade-in-element {
-            opacity: 0 !important;
-            animation: fadeIn 2s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
-        }
-        .delay-1 { animation-delay: 0.2s !important; }
-        .delay-2 { animation-delay: 0.6s !important; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(2px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 640px) {
-            .header-zone h1 { font-size: 1.8rem !important; letter-spacing: 0.4em !important; padding-left: 0.4em !important; }
-            .nav-links a { font-size: 0.9rem !important; }
-            body { padding: 12vh 1.5rem !important; }
-        }
-    </style>
+        @media (max-width: 640px) {
+            .header-zone h1 { font-size: 1.8rem !important; letter-spacing: 0.4em !important; padding-left: 0.4em !important; }
+            .nav-links a { font-size: 0.9rem !important; }
+            body { padding: 12vh 1.5rem !important; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="paper-texture"></div>
-    <div class="fog-layer"></div>
+    <div class="paper-texture"></div>
+    <div class="fog-layer"></div>
 
-    <div class="header-zone fade-in-element delay-1">
-        <h1>LADIS</h1>
-    </div>
+    <div class="header-zone">
+        <h1>LADIS</h1>
+    </div>
 
-    <div class="main-void"></div>
+    <div class="main-void"></div>
 
-    <div class="nav-zone fade-in-element delay-2">
-        <nav class="nav-links">
-            <a href="novel.html">Novel</a>
-            <a href="poetry.html">Poetry</a>
-            <a href="illustration.html">Illustration</a>
-            <a href="notes.html">Notes</a>
-            <a href="#about" class="about-link">About</a>
-        </nav>
-        <div class="divider"></div>
-    </div>
+    <div class="nav-zone">
+        <nav class="nav-links">
+            <a href=" ">Novel</a >
+            <a href="poetry.html">Poetry</a >
+            <a href="illustration.html">Illustration</a >
+            <a href="notes.html">Notes</a >
+            <a href="#about" class="about-link">About</a >
+        </nav>
+        <div class="divider"></div>
+    </div>
 
 </body>
 </html>
