@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <title>LADIS | 馆藏看大图</title>
     <style>
         * {
@@ -18,9 +17,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
-            position: relative;
-            cursor: zoom-out; /* 鼠标变成缩小手势，暗示点击任何地方都能退出 */
+            overflow: auto; /* 允许放大后滑动查看细节 */
         }
 
         /* 纸张微颗粒 */
@@ -33,29 +30,30 @@
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
-        /* 大图容器 */
+        /* 大图展示容器：让其占满全屏，从而让图片有完整的延展空间 */
         .view-container {
-            max-width: 90vw; /* 宽度最大占屏幕 90% */
-            max-height: 85vh; /* 高度最大占屏幕 85% */
+            width: 100vw;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05); /* 极轻的阴影，让画作浮现悬空 */
         }
 
         .view-container img {
+            /* 2. 核心算法：不论横图还是竖图，最长的那条边一定会刚好撑满屏幕，且绝对不会被裁剪 */
             max-width: 100%;
             max-height: 100%;
-            object-fit: contain; /* 确保图片完整显示，不被无情裁剪 */
+            object-fit: contain; 
             user-select: none;
         }
 
-        /* 隐藏的透明返回链接：点击屏幕任何地方都自动返回插画目录 */
-        .overlay-link {
+        /* 3. 返回机制重构：点击大图边缘的空白处（或图片本身，如果未放大）即可安全返回 */
+        .back-layer {
             position: fixed;
             inset: 0;
             z-index: 5;
+            cursor: zoom-out;
         }
     </style>
 </head>
@@ -63,10 +61,12 @@
 
     <div class="paper-texture"></div>
 
-    <a href="./illustration.html" class="overlay-link"></a>
+    <a href="./illustration.html" class="back-layer"></a>
 
     <div class="view-container">
-        <img src="pic01small.png" alt="扫兴">
+        <a href="./illustration.html" style="display:contents;">
+            <img src="pic01small.png" alt="扫兴">
+        </a>
     </div>
 
 </body>
