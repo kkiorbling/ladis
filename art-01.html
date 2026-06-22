@@ -1,1 +1,74 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LADIS | 馆藏看大图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #F4F2EE; /* 档案馆统一冷白底色 */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            cursor: zoom-out; /* 鼠标变成缩小手势，暗示点击任何地方都能退出 */
+        }
+
+        /* 纸张微颗粒 */
+        .paper-texture {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* 大图容器 */
+        .view-container {
+            max-width: 90vw; /* 宽度最大占屏幕 90% */
+            max-height: 85vh; /* 高度最大占屏幕 85% */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05); /* 极轻的阴影，让画作浮现悬空 */
+        }
+
+        .view-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; /* 确保图片完整显示，不被无情裁剪 */
+            user-select: none;
+        }
+
+        /* 隐藏的透明返回链接：点击屏幕任何地方都自动返回插画目录 */
+        .overlay-link {
+            position: fixed;
+            inset: 0;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="paper-texture"></div>
+
+    <a href="./illustration.html" class="overlay-link"></a>
+
+    <div class="view-container">
+        <img src="pic01small.png" alt="扫兴">
+    </div>
+
+</body>
+</html>
+
