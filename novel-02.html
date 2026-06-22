@@ -3,183 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADIS | 正文阅读</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@300;400&family=Noto+Serif+SC:wght@200;300&display=swap" rel="stylesheet">
-    
+    <title>LADIS | 小说作品</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #F4F2EE; /* 档案馆统一冷白底色 */
-            color: #222222;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10vh 2rem 15vh 2rem; /* 底部多留白，给阅读留下余韵 */
-            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
-            -webkit-font-smoothing: antialiased;
+            background: #F4F2EE; /* 保持你全站统一的冷白纸张底色 */
+            color: #333333;
+            font-family: "PingFang SC", "Noto Serif CJK SC", serif;
+            line-height: 2.2; /* 宽大舒适的行高 */
+            letter-spacing: 0.15em; /* 你偏爱的极致宽字距美学 */
+            padding: 100px 24px; /* 上下留出大量的视觉空白 */
         }
-
-        /* 纸张微颗粒 */
-        .paper-texture {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        .container {
+            max-width: 600px; /* 限制正文宽度，防止视线晃动，利于沉浸阅读 */
+            margin: 0 auto;
         }
-
-        /* 顶部轻量级退出导航 */
-        .article-nav {
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 8vh;
-            z-index: 10;
-        }
-
-        .article-nav .back-to-list {
-            font-size: 0.9rem;
+        .return-btn {
+            display: inline-block;
             text-decoration: none;
-            color: #8A8F96;
-            letter-spacing: 0.1em;
-            transition: color 0.3s ease;
-        }
-        .article-nav .back-to-list:hover {
-            color: #222222;
-        }
-
-        /* 文章主体容器 */
-        .article-container {
-            width: 100%;
-            max-width: 600px; /* 黄金阅读宽度限制 */
-            z-index: 10;
-        }
-
-        /* 文章头部元数据 */
-        .article-header {
-            margin-bottom: 8vh;
-        }
-
-        .article-meta {
+            color: #999999;
             font-size: 0.85rem;
-            color: #8A8F96;
-            letter-spacing: 0.05em;
-            display: block;
-            margin-bottom: 0.6rem;
+            margin-bottom: 60px;
+            transition: color 0.3s;
         }
-
-        .article-title {
-            font-size: 1.6rem;
-            font-weight: 300;
-            letter-spacing: 0.05em;
-            line-height: 1.4;
-        }
-
-        /* 核心正文排版（高阶舒适度控制） */
-        .article-content {
-            font-size: 1.05rem; /* 字号略微放大，保障手机和电脑看都不费眼 */
-            font-weight: 300;
-            line-height: 1.95; /* 克制的行间距，极具呼吸感 */
-            letter-spacing: 0.04em; /* 克制的字间距，既放松又保证阅读连贯 */
-            color: #2D3133; /* 微微调淡的墨黑，降低深夜看屏幕的刺眼度 */
-            text-align: justify; /* 两端对齐，排版更像实体印刷书 */
-        }
-
-        /* 段落间距 */
-        .article-content p {
-            margin-bottom: 2rem; /* 每段之间留出清晰的空白 */
-            text-indent: 2em; /* 中文标准：首行缩进两格 */
-        }
-        
-        /* 破例：如果是诗歌或者不需要缩进的随笔，可以去掉上面的 text-indent */
-
-        /* 底部完结标识 */
-        .article-footer {
-            margin-top: 12vh;
+        .return-btn:hover { color: #333333; }
+        .novel-header {
             text-align: center;
-            font-size: 0.8rem;
-            color: #8A8F96;
-            letter-spacing: 0.2em;
+            margin-bottom: 80px;
         }
-
-        @media (max-width: 640px) {
-            body { padding: 6vh 1.2rem 10vh 1.2rem; }
-            .article-header { margin-bottom: 5vh; }
-            .article-title { font-size: 1.4rem; }
-            .article-content { font-size: 1rem; line-height: 1.85; }
+        .novel-title {
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+        .novel-meta {
+            font-size: 0.8rem;
+            color: #999999;
+        }
+        .novel-content {
+            font-size: 0.95rem;
+            text-align: justify; /* 两端对齐，极其规整 */
+        }
+        .novel-content p {
+            margin-bottom: 35px; /* 段落与段落之间留出呼吸空间 */
+            text-indent: 2em; /* 经典的中文首行缩进两格 */
         }
     </style>
 </head>
 <body>
-
-    <div class="paper-texture"></div>
-
-    <nav class="article-nav">
-        <a href="https://www.ladis.site/novel.html" class="back-to-list">← Back to Archive</a >
-    </nav>
-
-    <article class="article-container">
+    <div class="container">
+        <a href="./novel.html" class="return-btn">← Return</a>
         
-        <header class="article-header">
-            <span class="article-meta">Vol. 01 / 2026.06</span>
-            <h1 class="article-title">未命名的小说卷宗名称</h1>
+        <header class="novel-header">
+            <h1 class="novel-title">第一章 捂住口鼻呼吸</h1>
+            <div class="novel-meta">No. 001</div>
         </header>
-
-        <main class="article-content">
-            <p>第一章捂住口鼻呼吸
-故事发生在冬天、爱莲登那。雪落得很大。
-像雨一样的雪落遍这片土地。细密，人和动物的生命，和尘封的植物，拥挤地行走。天高地远，足迹在雪地上也留下泥泞。
-上帝叫我来喂马，于是陛下让我来喂马。我今天牵着陛下的马到了乡下，这里有人想买陛下的马。如果我把陛下的马卖给他，我会被砍头吗。但我毫不犹豫地牵着马来了。大概没人知道，除了上帝。凌晨的空气如此干硬，一呼，生气顷刻消散，一吸，便觉几十根尖针刺入鼻孔。等天亮了，全城都会知道陛下的马不见了。陛下有很多马，大多是皇家马场繁育饲养的，其次是进贡，我单独喂其中一只，是波拉产的马。陛下刚得到它不久，将在下次游行的时候首次在民众面前展示。而此刻，这匹马安静地走在我旁边，鼻孔喷出大团的太阴太虚的白雾。它厚实的睫毛上有雪和干草的味道，低垂的眸子里有我布满血丝的眼睛。趁着夜雪，我到了约定的地点。
-不管是什么现在都一定比我暖和。人和马蜗居在一块破旧的直木板旁来回踱步，一条碎布被风扯得嘶叫。我等着夫人，但我隐隐感觉在夫人派人来之前我的行迹就会被发现，陛下有数不清的眼睛。有人告诉我，只能尽力活着，我已经记不清是谁，是什么时候说的，我的脑子已经冷得麻木。只知道不是上帝。
-“那边在苦笑的人，过来。“一个老头的声音从路对面传过来。
-”牵好你的马，来。“一一张白纸拨开，一扇冻结厚霜的窗挡在两人中间。
-窗里面两个暖橘色而粉红的双胞胎对坐在霜前，两双眼眸融化一点霜痕，对称在光亮中。
-不知道什么时候，这张脸已经扭曲了。对面那张老脸也没好到哪去，满是皱纹的粗糙的松弛人皮。
-“夫人……”
-“你话太多了，夫人不来。”
-他呆滞的发冷光的眼睛挂在那个人蔽体的像树皮一样的东西，他又利索地咯吱响，解开马，马解放到老茧上，一场交易完成了。
-冬四时，郊外躺了不知名的尸体，马飞奔出去了。
-但是双胞胎看见了，两个丑陋的人的交易，他们说了很多话，时间越久，双胞胎抱得越紧。
-一条大汉拖着一头死牛去屠宰场，一路上摩擦的殷血闪闪发光。尘土轻轻掀起又飞落，来往踱步的人和动物不断登场，交易的地方开始聒噪，人群聚在一团，目光聚焦在层叠之后，一个小腿缝着鹿蹄的瘦小人被血脉喷张地包裹。
-  呼吸，呼吸，风开始。两轮车马领头的军官你挤我赶地穿梭出新城主路。
-  “他肯定想要那个土地，对吧……我是说新城东边……而不是……”
-  “你可以去问他本人，在明天的皇家宴会。你知道我并不想对这次的封地有什么看法，我和陛下很远，很远……简斯汀公爵和罗瓦森公爵都想要那块地，伊森伯格特利斯可以表演完成了男爵的任务，你呢？保佑你一星期后尸体还没臭。”
-  “xxx，你知道，如果新城东边被xxx得到了，他只会卖出去……赚一笔地钱，然后转头放贷……”
-  湿润而闪闪的地面压过军行队黑影。閃閃而溫熱的會客廳進來重要客人。
-“這出戲迫不及待地出現，才想安排吧，這裡好多結巴。”
-“但……但是……這裡展示出來，就會被摧毁了……會不會太傲慢了……對觀眾……”
-突然，一個高大男子樹在對話旁邊 ，“你們吵什麼！誰放這兩人進來的！”
-“我，我呀，呵呵呵呵，xxx老兄”一个驼背得双层西装紧绷的男人，一手掐着水晶珍珠金边镜，一手捻着翘上天的刻板胡须。
-“这是请来的东方戏师，xxx特地找来做皇家宴会的表演的”
-
-他旁边跟着两个徒弟，像一双玲珑残破的瓷娃娃。
-
-
-他带着故事来，说青山上有座庙，在葱郁竹林里红墙玄瓦，庙里一位方丈住持，一个女人，一个小孩。雨一盆一盆地泼洒，小孩一天一天长大，曾经女人和小孩依偎，后来小孩长成八尺男儿，女人容貌却无变化。
-  “母亲，我不能，不，不，不能，我不喝这碗药！”
-  “我们在这山上，是一辈子安定的。”
-再之后，男子眼眶黑了，方丈端坐，日行敲木鱼，在斜风细雨三面透风的庙堂里。母亲站在门槛上，日日望青山。
-男子要下山那天，青山寂静，雨一盆一盆地泼洒，没有风。三人都在庙里，菩萨立在母亲身后，方丈在蒲团前敲木鱼诵经，男子流着黑血黑泪，青山穿过庙，端在东面，端在西面。烛台推倒了，排倒散在潮湿石板上也烧不起来，叮了咣当的东西散在潮湿石板上响一下也归于无声了。
-
-他从很远的地方带回来这出戏本。
-
-</p >
-        </main>
-
-        <footer class="article-footer">
-            <span>■</span>
-        </footer>
-
-    </article>
-
+        
+        <article class="novel-content">
+            <p>故事发生在冬天、爱莲登那。雪落得很大。</p>
+            <p>像雨一样的雪落遍这片土地。细密，人和动物的生命，和尘封的植物，拥挤地行走。天高地远，足迹在雪地上也留下泥泞。</p>
+            <p>上帝叫我来喂马，于是陛下让我来喂马。我今天牵着陛下的马到了乡下，这里有人想买陛下的马。如果我把陛下的马卖给他，我会被砍头吗。但我毫不犹豫地牵着马来了。大概没人知道，除了上帝。凌晨的空气如此干硬，一呼，生气顷刻消散，一吸，便觉几十根尖针刺入鼻孔。等天亮了，全城都会知道陛下的马不见了。陛下有很多马，大多是皇家马场繁育饲养的，其次是进贡，我单独喂其中一只，是波拉产的马。陛下刚得到它不久，将在下次游行的时候首次在民众面前展示。而此刻，这匹马安静地走在我旁边，鼻孔喷出大团的太阴太虚的白雾。它厚实的睫毛上有雪和干草的味道，低垂的眸子里有我布满血丝的眼睛。趁着夜雪，我到了约定的地点。</p>
+            <p>不管是什么现在都一定比我暖和。人和马蜗居在一块破旧的直木板旁来回踱步，一条碎布被风扯得嘶叫。我等着夫人，但我隐隐感觉在夫人派人来之前我的行迹就会被发现，陛下有数不清的眼睛。有人告诉我，只能尽力活着，我已经记不清是谁，是什么时候说的，我的脑子已经冷得麻木。只知道不是上帝。</p>
+            <p>“那边在苦笑的人，过来。“一个老头的声音从路对面传过来。</p>
+            <p>”牵好你的马，来。“一一张白纸拨开，一扇冻结厚霜的窗挡在两人中间。</p>
+            <p>窗里面两个暖橘色而粉红的双胞胎对坐在霜前，两双眼眸融化一点霜痕，对称在光亮中。</p>
+            <p>不知道什么时候，张脸已经扭曲了。对面那张老脸也没好到哪去，满是皱纹的粗糙的松弛人皮。</p>
+            <p>“夫人……”</p>
+            <p>“你话太多了，夫人不来。”</p>
+            <p>他呆滞的发冷光的眼睛挂在那个人蔽体的像树皮一样的东西，他又利索地咯吱响，解开马，马解放到老茧上，一场交易完成了。</p>
+            <p>冬四时，郊外躺了不知名的尸体，马飞奔出去了。</p>
+            <p>但是双胞胎看见了，两个丑陋的人的交易，他们说了很多话，时间越久，双胞胎抱得越紧。</p>
+            <p>一条大汉拖着一头死牛去屠宰场，一路上摩擦的殷血闪闪发光。尘土轻轻掀起又飞落，来往踱步的人和动物不断登场，交易的地方开始聒噪，人群聚在一团，目光聚焦在层叠之后，一个小腿缝着鹿蹄的瘦小人被血脉喷张地包裹。</p>
+            <p>呼吸，呼吸，风开始。两轮车马领头的军官你挤我赶地穿梭出新城主路。</p>
+            <p>“他肯定想要那个土地，对吧……我是说新城东边……而不是……”</p>
+            <p>“你可以去问他本人，在明天的皇家宴会。你知道我并不想对这次的封地有什么看法，我和陛下很远，很远……简斯汀公爵和罗瓦森公爵都想要那块地，伊森伯格特利斯可以表演完成了男爵的任务，你呢？保佑你一星期后尸体还没臭。”</p>
+            <p>“xxx，你知道，如果新城东边被xxx得到了，他只会卖出去……赚一笔地钱，然后转头放贷……”</p>
+            <p>湿润而闪闪的地面压过军行队黑影。閃閃而溫熱的會客廳進來重要客人。</p>
+            <p>“這出戲迫不及待地出現，才想安排吧，這裡好多結巴。”</p>
+            <p>“但……但是……這裡展示出來，就會被摧毁了……會不會太傲慢了……對觀眾……”</p>
+            <p>突然，一個高大男子樹在對話旁邊 ，“你們吵什麼！誰放這兩人進來的！”</p>
+            <p>“我，我呀，呵呵呵呵，xxx老兄”一个驼背得双层西装紧绷的男人，一手掐着水晶珍珠金边镜，一手捻着翘上天的刻板胡须。</p>
+            <p>“这是请来的东方戏师，xxx特地找来做皇家宴会的表演的”</p>
+            <p>他旁边跟着两个徒弟，像一双玲珑残破的瓷娃娃。</p>
+            <p>他带着故事来，说青山上有座庙，在葱郁竹林里红墙玄瓦，庙里一位方丈住持，一个女人，一个小孩。雨一盆一盆地泼洒，小孩一天一天长大，曾经女人和小孩依偎，后来小孩长成八尺男儿，女人容貌却无变化。</p>
+            <p>“母亲，我不能，不，不，不能，我不喝这碗药！”</p>
+            <p>“我们在这山上，是一辈子安定的。”</p>
+            <p>再之后，男子眼眶黑了，方丈端坐，日行敲木鱼，在斜风细雨三面透风的庙堂里。母亲站在门槛上，日日望青山。</p>
+            <p>男子要下山那天，青山寂静，雨一盆一盆地泼洒，没有风。三人都在庙里，菩萨立在母亲身后，方丈在蒲团前敲木鱼诵经，男子流着黑血黑泪，青山穿过庙，端在东面，端在西面。烛台推倒了，排倒散在潮湿石板上也烧不起来，叮了咣当的东西散在潮湿石板上响一下也归于无声了。</p>
+            <p>他从很远的地方带回来这出戏本。</p>
+        </article>
+    </div>
 </body>
 </html>
+
