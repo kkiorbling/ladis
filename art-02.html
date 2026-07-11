@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <title>LADIS | 馆藏看大图</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background: #F4F2EE;
+            background: #F4F2EE; /* 统一冷白底色 */
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: auto;
+            overflow: auto; /* 允许放大后四周滑动查看细节 */
         }
+
+        /* 纸张微颗粒 */
         .paper-texture {
             position: fixed;
             inset: 0;
@@ -22,6 +29,8 @@
             opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
+
+        /* 2. 释放大图容器：彻底占满全屏，把决定权完全交给图片的长边 */
         .view-container {
             width: 100vw;
             height: 100vh;
@@ -30,12 +39,16 @@
             align-items: center;
             z-index: 10;
         }
+
         .view-container img {
+            /* 3. 核心算法：最长的那条边一定会刚好撑满屏幕边缘，且绝对不被裁剪，比例完美 */
             max-width: 100%;
             max-height: 100%;
             object-fit: contain; 
             user-select: none;
         }
+
+        /* 返回机制：点击大图边缘的冷白处秒回目录 */
         .back-layer {
             position: fixed;
             inset: 0;
@@ -45,13 +58,16 @@
     </style>
 </head>
 <body>
+
     <div class="paper-texture"></div>
+
     <a href="./illustration.html" class="back-layer"></a>
+
     <div class="view-container">
         <a href="./illustration.html" style="display:contents;">
-            <img src="pic02small.png" alt="故事开始的泉">
+            <img src="pic02small-hd.webp" alt="故事开始的泉">
         </a>
     </div>
+
 </body>
 </html>
-
