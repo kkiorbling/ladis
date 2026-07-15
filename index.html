@@ -51,6 +51,16 @@
     /* 混合模式：让噪点与背景的环境光完美融合，不显生硬 */
     mix-blend-mode: multiply !important; 
 }
+        
+#canvas-container {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 0 !important;          /* 确保它在最底层（低于纸张纹理和雾化层） */
+    pointer-events: none !important; /* 点击穿透，保证上层文字链接依然可以正常点击 */
+}
+
 
         .fog-layer {
             position: fixed !important;
@@ -154,8 +164,19 @@
             body { padding: 12vh 1.5rem !important; }
         }
     </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    
 </head>
 <body>
+
+    <!-- 插入这一行：WebGL 蚕丝背景容器 -->
+    <div id="canvas-container"></div>
+
+    <div class="paper-texture"></div>
+    <div class="fog-layer"></div>
+    ...
+
 
     <div class="paper-texture"></div>
     <div class="fog-layer"></div>
@@ -176,6 +197,166 @@
         </nav>
         <div class="divider"></div>
     </div>
+    <!-- 插入完整的 Three.js 蚕丝逻辑 -->
+    <script>
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        const uniforms = {
+            u_time: { value: 0 },
+            u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+            u_mouse: { value: new THREE.Vector2(-1000, -1000) },
+            u_mouse_active: { value: 0.0 }
+        };
+
+        const vertexShader = `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = vec4(position, 1.0);
+            }
+        `;
+
+        const fragmentShader = `
+            uniform float u_time;
+            uniform vec2 u_resolution;
+            uniform vec2 u_mouse;
+            uniform float u_mouse_active;
+            varying vec2 vUv;
+
+            float hash(vec3 p) {
+                p = fract(p * 0.1031);
+                p += dot(p, p.yzx + 33.33);
+                return fract((p.x + p.y) * p.z);
+            }
+
+            float noise3D(vec3 p) {
+                vec3 i = floor(p);
+                vec3 f = fract(p);
+                f = f * f * (3.0 - 2.0 * f);
+
+                return mix(
+                    mix(mix(hash(i + vec3(0,0,0)), hash(i + vec3(1,0,0)), f.x),
+                        mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
+                    mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
+                        mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z
+                );
+            }
+
+            float getWarpedSilk(vec2 uv, float size, float density, float speed, float amp, float seed) {
+                float rotX = (uv.x - uv.y) * 0.7071;
+                float rotY = (uv.x + uv.y) * 0.7071;
+
+                vec3 spaceCoord = vec3(rotX * size, rotY * size * 0.5, u_time * speed + seed);
+                float warp = noise3D(spaceCoord) * amp;
+                float warpCoord = rotY * density + warp * density;
+
+                float fiber = sin(warpCoord);
+                float edge = 0.05 + abs(sin(warp * 3.0)) * 0.03;
+                return smoothstep(0.94 - edge, 0.98, fiber);
+            }
+
+            void main() {
+                vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+                vec2 aspectUv = uv;
+                aspectUv.x *= u_resolution.x / u_resolution.y;
+
+                vec3 baseColor = vec3(0.957, 0.949, 0.933); 
+                vec3 finalColor = baseColor;
+
+                vec3 shadowColor = vec3(0.921, 0.910, 0.886);
+                vec3 lightColor = vec3(1.0, 1.0, 1.0);
+
+                float layer5 = getWarpedSilk(aspectUv, 1.2, 70.0, 0.05, 0.6, 9.8);
+                finalColor = mix(finalColor, shadowColor, layer5 * 0.16);
+
+                float layer4 = getWarpedSilk(aspectUv, 2.5, 180.0, 0.08, 0.8, 7.6);
+                finalColor = mix(finalColor, shadowColor, layer4 * 0.22);
+
+                float layer3 = getWarpedSilk(aspectUv, 4.0, 400.0, 0.12, 1.2, 5.4);
+                finalColor = mix(finalColor, shadowColor, layer3 * 0.26);
+
+                float layer2 = getWarpedSilk(aspectUv, 6.0, 700.0, 0.18, 1.5, 3.2);
+                finalColor = mix(finalColor, lightColor, layer2 * 0.24);
+
+                float glitter = sin(u_time * 2.0 + aspectUv.x * 4.0) * 0.5 + 0.5;
+                float layer1 = getWarpedSilk(aspectUv, 9.0, 1050.0, 0.25, 2.0, 1.0);
+                finalColor = mix(finalColor, lightColor, layer1 * (0.08 + glitter * 0.28));
+
+                if (u_mouse_active > 0.01) {
+                    vec2 relPos = gl_FragCoord.xy - u_mouse;
+
+                    float rotX = (relPos.x - relPos.y) * 0.7071;
+                    float rotY = (relPos.x + rotY) * 0.7071;
+
+                    float dist = sqrt(pow(rotX * 0.07, 2.0) + pow(rotY * 1.6, 2.0));
+
+                    float glowRadius = 140.0;
+                    if (dist < glowRadius) {
+                        float glowFactor = (1.0 - dist / glowRadius) * u_mouse_active;
+
+                        float silkMask = (layer1 + layer2 * 1.5 + layer3 + layer4 * 0.5);
+                        vec3 silverGlow = vec3(1.0, 1.0, 1.0) * glowFactor * 0.75;
+
+                        finalColor += silverGlow * silkMask;
+                    }
+                }
+
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        `;
+
+        const geometry = new THREE.PlaneGeometry(2, 2);
+        const material = new THREE.ShaderMaterial({
+            vertexShader,
+            fragmentShader,
+            uniforms,
+            depthWrite: false,
+            depthTest: false
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        let targetMouseActive = 0.0;
+
+        window.addEventListener('mousemove', (e) => {
+            uniforms.u_mouse.value.set(e.clientX * window.devicePixelRatio, (window.innerHeight - e.clientY) * window.devicePixelRatio);
+            targetMouseActive = 1.0;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            targetMouseActive = 0.0;
+        });
+
+        function handleResize() {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            renderer.setSize(w, h);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            uniforms.u_resolution.value.set(w, h);
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            uniforms.u_time.value = clock.getElapsedTime();
+            uniforms.u_mouse_active.value += (targetMouseActive - uniforms.u_mouse_active.value) * 0.08;
+            renderer.render(scene, camera);
+        }
+
+        handleResize();
+        animate();
+    </script>
+</body>
+
 
 </body>
 </html>
