@@ -3,39 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LADIS | Poetry Archive</title>
+    <title>LADIS | Poetry</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+SC:wght@200;300&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #F4F2EE; color: #222222; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 8vh 2rem; font-family: 'Cormorant Garamond', 'Noto Serif SC', serif; }
-        .paper-texture { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"); }
-        .archive-header { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8vh; z-index: 10; }
-        .archive-header .back-btn { font-size: 0.9rem; text-decoration: none; color: #8A8F96; letter-spacing: 0.1em; }
-        .archive-header h2 { font-size: 1.5rem; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; }
-        .archive-list { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 1.8rem; z-index: 10; }
-        .archive-item { display: flex; justify-content: space-between; align-items: flex-end; text-decoration: none; color: #222222; padding-bottom: 0.6rem; border-bottom: 1px solid rgba(138, 143, 150, 0.1); }
-        .item-title { display: flex; flex-direction: column; gap: 0.2rem; }
-        .item-index { font-size: 0.8rem; color: #8A8F96; }
-        .item-name { font-size: 1.05rem; font-weight: 300; }
-        .item-meta { font-size: 0.85rem; color: #8A8F96; }
+        * { margin: 0 !important; padding: 0 !important; box-sizing: border-box !important; }
+        
+        body { 
+            background: #F4F2EE !important; 
+            color: #222222 !important; 
+            min-height: 100vh !important; 
+            display: flex !important; 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            padding: 10vh 2rem !important; 
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif !important; 
+            position: relative !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+
+        /* 统一的高级纸张肌理 */
+        .paper-texture { 
+            position: fixed !important; 
+            inset: 0 !important; 
+            z-index: 1 !important; 
+            pointer-events: none !important; 
+            opacity: 0.025 !important; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important; 
+            mix-blend-mode: multiply !important;
+        }
+
+        .container {
+            z-index: 10 !important;
+            width: 100% !important;
+            max-width: 600px !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* 顶部导航区 */
+        .archive-header { 
+            width: 100% !important; 
+            display: flex !important; 
+            justify-content: space-between !important; 
+            align-items: baseline !important; 
+            margin-bottom: 8vh !important; 
+            border-bottom: 1px solid rgba(138, 143, 150, 0.15) !important;
+            padding-bottom: 2vh !important;
+        }
+
+        .archive-header .back-btn { 
+            font-size: 0.9rem !important; 
+            text-decoration: none !important; 
+            color: #8A8F96 !important; 
+            letter-spacing: 0.1em !important; 
+            transition: color 0.3s !important;
+        }
+        .archive-header .back-btn:hover { color: #222222 !important; }
+
+        .archive-header h2 { 
+            font-size: 1.5rem !important; 
+            font-weight: 300 !important; 
+            letter-spacing: 0.2em !important; 
+            text-transform: uppercase !important; 
+        }
+
+        /* 瀑布式诗歌长卷 */
+        .poetry-flow {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12vh !important; /* 每首诗之间留出空灵的白 */
+        }
+
+        .poetry-card {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* 单行优雅标题（左侧序号与名称，右侧年份） */
+        .poetry-meta-line {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: baseline !important;
+            padding-bottom: 1.2rem !important;
+            border-bottom: 1px solid rgba(138, 143, 150, 0.1) !important;
+            margin-bottom: 4vh !important;
+        }
+
+        .poetry-title-group {
+            display: flex !important;
+            align-items: baseline !important;
+            gap: 1rem !important;
+        }
+
+        .poetry-index {
+            font-size: 0.8rem !important;
+            color: #8A8F96 !important;
+            letter-spacing: 0.05em !important;
+        }
+
+        .poetry-name {
+            font-size: 1.1rem !important;
+            font-weight: 300 !important;
+            letter-spacing: 0.05em !important;
+        }
+
+        .poetry-year {
+            font-size: 0.85rem !important;
+            color: #8A8F96 !important;
+        }
+
+        /* 诗歌正文版式 */
+        .poetry-content {
+            font-size: 0.95rem !important;
+            line-height: 2 !important; /* 稍宽的行距，更显轻盈 */
+            color: #333333 !important;
+            font-weight: 300 !important;
+            text-align: left !important;
+            padding-left: 1rem !important; /* 轻微向右收缩，营造诗歌排版的仪式感 */
+        }
+
+        /* 段落和单行留白，方便控制空行 */
+        .poetry-content p {
+            margin-bottom: 1.2rem !important;
+        }
+        .poetry-content p:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        /* 诗与诗之间的精细分割小圆点（保持干净） */
+        .poetry-divider {
+            width: 4px !important;
+            height: 4px !important;
+            background: #8A8F96 !important;
+            border-radius: 50% !important;
+            opacity: 0.15 !important;
+            margin: 10vh auto 0 auto !important;
+        }
+        .poetry-card:last-child .poetry-divider {
+            display: none !important; /* 最后一首诗不需要底部的分割点 */
+        }
     </style>
 </head>
 <body>
     <div class="paper-texture"></div>
-    <header class="archive-header">
-        <a href="https://www.ladis.site" class="back-btn">← Return</a >
-        <h2>Poetry</h2>
-    </header>
-    <main class="archive-list">
-        <a href="poetry-01.html" class="archive-item">
-            <div class="item-title">
-                <span class="item-index">Verse. 01</span>
-                <span class="item-name">未命名的无题诗集</span>
-            </div>
-            <div class="item-meta"><span>2026</span></div>
-        </a >
-    </main>
+
+    <div class="container">
+        <!-- 顶部导航 -->
+        <header class="archive-header">
+            <a href="index.html" class="back-btn">← Return</a>
+            <h2>Poetry</h2>
+        </header>
+
+        <!-- 诗歌长卷 -->
+        <main class="poetry-flow">
+
+            <!-- 📜 第一首诗 -->
+            <article class="poetry-card">
+                <div class="poetry-meta-line">
+                    <div class="poetry-title-group">
+                        <span class="poetry-index">Verse. 01</span>
+                        <span class="poetry-name">未命名的无题诗集</span>
+                    </div>
+                    <span class="poetry-year">2026</span>
+                </div>
+                <div class="poetry-content">
+                    <p>在这里写下第一行诗句，</p>
+                    <p>行距轻柔而舒展。</p>
+                    <p>&nbsp;</p> <!-- 这行用来制造一个空行，如果需要的话 -->
+                    <p>在纸张的碎屑深处，</p>
+                    <p>诗歌有了可以落脚的影子。</p>
+                </div>
+                <div class="poetry-divider"></div>
+            </article>
+
+            <!-- 📜 如果要新增第二首诗，直接复制这块 poetry-card 往下面接即可 -->
+
+        </main>
+    </div>
 </body>
 </html>
+
