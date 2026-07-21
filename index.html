@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Noto+Serif+SC:wght@200;300&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -27,12 +27,12 @@
             justify-content: space-between !important;
             align-items: center !important;
             padding: 12vh 2rem !important;
-            font-family: 'Cormorant Garamond', 'Noto Serif CJK SC', serif !important; /* 引入古典优雅的衬线字体 */
+            font-family: 'Cormorant Garamond', 'Noto Serif SC', serif !important;
             
-            /* 🎨 新增：模拟自然光照在画布上的微弱环境光（左上微暖，右下微冷） */
+            /* 模拟自然光照在画布上的微弱环境光（左上微暖，右下微冷） */
             background-image: radial-gradient(circle at 30% 20%, rgba(255, 253, 249, 0.6) 0%, rgba(244, 242, 238, 0.2) 60%, rgba(230, 228, 224, 0.3) 100%) !important;
             
-            /* 🎨 新增：极其克制的白墙暗角。四角微微收紧，产生画廊聚焦感 */
+            /* 极其克制的白墙暗角。四角微微收紧，产生画廊聚焦感 */
             box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.02) !important;
             
             position: relative;
@@ -43,12 +43,8 @@
             inset: 0 !important;
             z-index: 1 !important;
             pointer-events: none !important;
-            
-            /* 🎨 优化：利用高精度无损 SVG 噪点，模拟 100% 纯棉手工纸张的凹凸颗粒感 */
-            opacity: 0.045 !important; /* 微微提升可见度，让纸张肌理在视网膜屏上隐约可见 */
+            opacity: 0.045 !important;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E") !important;
-            
-            /* 混合模式：让噪点与背景的环境光完美融合，不显生硬 */
             mix-blend-mode: multiply !important; 
         }
                 
@@ -57,8 +53,8 @@
             inset: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            z-index: 0 !important;          /* 确保它在最底层（低于纸张纹理和雾化层） */
-            pointer-events: none !important; /* 点击穿透，保证上层文字链接依然可以正常点击 */
+            z-index: 0 !important;
+            pointer-events: none !important;
         }
 
         .fog-layer {
@@ -90,14 +86,78 @@
             text-transform: uppercase !important;
         }
 
-        .main-void {
-            flex-grow: 1 !important;
+        /* 页面中央中轴沉淀点 */
+        .hero-center {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 10 !important;
+            pointer-events: none !important;
         }
 
+        .center-anchor {
+            font-size: 0.75rem !important;
+            font-weight: 300 !important;
+            letter-spacing: 0.6em !important;
+            color: #8A8F96 !important;
+            opacity: 0.35 !important;
+            text-transform: uppercase !important;
+        }
+
+        /* 底部导航展牌区域 */
+        .nav-zone {
+            z-index: 10 !important;
+            width: 100% !important;
+            max-width: 600px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            border-top: 1px solid rgba(138, 143, 150, 0.15) !important;
+            padding-top: 1.8rem !important;
+        }
+
+        .nav-links {
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+
+        .nav-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-decoration: none !important;
+            transition: all 0.4s ease !important;
+        }
+
+        .nav-label-en {
+            font-size: 1rem !important;
+            font-weight: 300 !important;
+            color: #222222 !important;
+            letter-spacing: 0.05em !important;
+            transition: color 0.3s ease !important;
+        }
+
+        .nav-label-zh {
+            font-size: 0.7rem !important;
+            font-weight: 200 !important;
+            color: #8A8F96 !important;
+            letter-spacing: 0.15em !important;
+            margin-top: 0.3rem !important;
+            opacity: 0.65 !important;
+            transition: opacity 0.3s ease, color 0.3s ease !important;
+        }
+
+        .nav-item:hover .nav-label-en { color: #000000 !important; }
+        .nav-item:hover .nav-label-zh { opacity: 1 !important; color: #222222 !important; }
 
         @media (max-width: 640px) {
             .header-zone h1 { font-size: 1.8rem !important; letter-spacing: 0.4em !important; padding-left: 0.4em !important; }
-            .nav-links a { font-size: 0.9rem !important; }
+            .nav-label-en { font-size: 0.85rem !important; }
+            .nav-label-zh { font-size: 0.65rem !important; }
             body { padding: 12vh 1.5rem !important; }
         }
     </style>
@@ -112,22 +172,40 @@
     <div class="paper-texture"></div>
     <div class="fog-layer"></div>
 
-    <!-- 网页核心内容 -->
+    <!-- 顶栏标志 -->
     <div class="header-zone">
         <h1>LADIS</h1>
     </div>
 
-    <div class="main-void"></div>
+    <!-- 画面中央中轴点 -->
+    <div class="hero-center">
+        <span class="center-anchor">A R C H I V E</span>
+    </div>
 
+    <!-- 底部双语展牌导航栏 -->
     <div class="nav-zone">
         <nav class="nav-links">
-            <a href="novel.html">Novel</a>
-            <a href="poetry.html">Poetry</a>
-            <a href="illustration.html">Illustration</a>
-            <a href="notes.html">Notes</a>
-            <a href="#about" class="about-link">About</a>
+            <a href="novel.html" class="nav-item">
+                <span class="nav-label-en">Novel</span>
+                <span class="nav-label-zh">小说</span>
+            </a>
+            <a href="poetry.html" class="nav-item">
+                <span class="nav-label-en">Poetry</span>
+                <span class="nav-label-zh">诗歌</span>
+            </a>
+            <a href="illustration.html" class="nav-item">
+                <span class="nav-label-en">Illustration</span>
+                <span class="nav-label-zh">插画</span>
+            </a>
+            <a href="notes.html" class="nav-item">
+                <span class="nav-label-en">Notes</span>
+                <span class="nav-label-zh">随笔</span>
+            </a>
+            <a href="about.html" class="nav-item">
+                <span class="nav-label-en">About</span>
+                <span class="nav-label-zh">关于</span>
+            </a>
         </nav>
-        <div class="divider"></div>
     </div>
 
     <!-- Three.js 蚕丝流光逻辑 -->
@@ -178,7 +256,7 @@
                     mix(mix(hash(i + vec3(0,0,0)), hash(i + vec3(1,0,0)), f.x),
                         mix(hash(i + vec3(0,1,0)), hash(i + vec3(1,1,0)), f.x), f.y),
                     mix(mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,0,1)), f.x),
-                        mix(hash(i + vec3(0,1,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z
+                        mix(hash(i + vec3(0,0,1)), hash(i + vec3(1,1,1)), f.x), f.y), f.z
                 );
             }
 
