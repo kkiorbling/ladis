@@ -94,68 +94,6 @@
             flex-grow: 1 !important;
         }
 
-        .nav-zone {
-            z-index: 10 !important;
-            width: 100% !important;
-            max-width: 600px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-        }
-
-        .nav-links {
-            width: 100% !important;
-            display: flex !important;
-            flex-direction: row !important;
-            justify-content: space-between !important;
-            align-items: center !important;
-        }
-
-        .nav-links a {
-            font-size: 1rem !important;
-            font-weight: 300 !important;
-            color: #222222 !important;
-            text-decoration: none !important;
-            letter-spacing: 0.05em !important;
-            padding: 0.5rem 0 !important;
-            position: relative !important;
-            transition: color 0.4s ease !important;
-        }
-
-        .nav-links a.about-link {
-            color: #8A8F96 !important;
-        }
-
-        .nav-links a::after {
-            content: '' !important;
-            position: absolute !important;
-            top: 0 !important;
-            left: 50% !important;
-            transform: translateX(-50%) scale-x(0) !important;
-            width: 20px !important;
-            height: 1px !important;
-            background: #8A8F96 !important;
-            transition: transform 0.4s ease !important;
-        }
-
-        .nav-links a:hover::after {
-            transform: translateX(-50%) scale-x(1) !important;
-        }
-
-        .nav-links a:hover { color: #8A8F96 !important; }
-        .nav-links a.about-link:hover { color: #222222 !important; }
-
-        .divider {
-            width: 100% !important;
-            height: 1px !important;
-            background: #8A8F96 !important;
-            opacity: 0.15 !important;
-            margin-top: 0.8rem !important;
-        }
-
-        .nav-links a {
-            margin: 0 30px !important;
-        }
 
         @media (max-width: 640px) {
             .header-zone h1 { font-size: 1.8rem !important; letter-spacing: 0.4em !important; padding-left: 0.4em !important; }
