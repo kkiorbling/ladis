@@ -152,6 +152,63 @@
                 margin-bottom: 2rem;
             }
         }
+
+                /* ==========================================
+           回到顶部按键 (Back to Top)
+           ========================================== */
+        .back-to-top {
+            position: fixed !important;
+            bottom: 2.5rem !important;
+            right: 2.5rem !important;
+            z-index: 99 !important;
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            cursor: pointer !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 0.2rem !important;
+            
+            /* 默认隐藏与平滑过渡 */
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+            
+            color: #8A8F96 !important;
+            font-family: 'Cormorant Garamond', serif !important;
+        }
+
+        .back-to-top.visible {
+            opacity: 0.5 !important;
+            visibility: visible !important;
+        }
+
+        .back-to-top:hover {
+            opacity: 1 !important;
+            transform: translateY(-3px) !important;
+            color: #222222 !important;
+        }
+
+        .back-to-top .arrow {
+            font-size: 1.1rem !important;
+            font-weight: 300 !important;
+            line-height: 1 !important;
+        }
+
+        .back-to-top .text {
+            font-size: 0.65rem !important;
+            letter-spacing: 0.25em !important;
+            font-weight: 300 !important;
+            text-transform: uppercase !important;
+        }
+
+        @media (max-width: 640px) {
+            .back-to-top {
+                bottom: 1.8rem !important;
+                right: 1.2rem !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -392,4 +449,34 @@
                 <span class="art-code">No. 023</span>
                 <span class="art-title">黑川楹公式图</span>
             </div>
+
+                <!-- 悬浮回到顶部按钮 -->
+    <button id="backToTop" class="back-to-top" title="回到顶部" aria-label="Back to top">
+        <span class="arrow">↑</span>
+        <span class="text">TOP</span>
+    </button>
+
+    <!-- 回到顶部平滑控制脚本 -->
+    <script>
+        const backToTopBtn = document.getElementById('backToTop');
+
+        if (backToTopBtn) {
+            // 监听滚动事件，超过 300px 显示按钮
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+
+            // 点击后平滑滚动到顶部
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
         </a> 
